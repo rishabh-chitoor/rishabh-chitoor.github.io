@@ -23,8 +23,7 @@
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 	<link rel="shortcut icon" href="favicon.ico">
 
-	<link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
 	
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="css/animate.css">
@@ -49,7 +48,209 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
-	</head>
+	
+	<!-- Custom overrides -->
+	<style>
+		/* ── About section intro ── */
+		.about-intro {
+			font-size: 16px;
+			line-height: 1.9;
+			color: #444;
+			max-width: 580px;
+			margin-bottom: 0;
+		}
+		.about-intro a { color: #2c98f0; }
+
+		/* ── Travel Mosaic ── */
+		.travel-mosaic-link {
+			display: block;
+			text-decoration: none;
+		}
+		.travel-mosaic {
+			border-radius: 8px;
+			overflow: hidden;
+			position: relative;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+		.travel-mosaic:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+		}
+		.travel-mosaic-inner {
+			display: flex;
+			gap: 4px;
+			height: 340px;
+		}
+		.tm-col {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			flex: 1;
+		}
+		.tm-col-wide { flex: 1.6; }
+		.tm-col-portrait { flex: 0.8; }
+		.tm-photo {
+			flex: 1;
+			overflow: hidden;
+			background: #ddd;
+		}
+		.tm-photo-full { flex: unset; height: 100%; }
+		.tm-photo img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			display: block;
+			transition: transform 0.5s ease, filter 0.4s;
+			filter: brightness(0.9) saturate(1.05);
+			-webkit-user-drag: none;
+			user-drag: none;
+			pointer-events: none;
+		}
+		.travel-mosaic:hover .tm-photo img {
+			transform: scale(1.04);
+			filter: brightness(1) saturate(1.1);
+		}
+		.travel-caption {
+			background: rgba(20, 20, 20, 0.82);
+			color: #fff;
+			text-align: center;
+			padding: 14px 20px;
+			font-size: 14px;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			font-family: "Quicksand", sans-serif;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+		}
+		.travel-caption-icon { font-size: 18px; }
+		@media (max-width: 600px) {
+			.travel-mosaic-inner { height: 220px; }
+			.tm-col-portrait { display: none; }
+		}
+
+		/* ── Timeline icon ── */
+		.timeline-icon i { font-size: 16px; }
+
+		/* ── Section headings: reduce bottom margin ── */
+		.colorlib-heading { margin-bottom: 2em; }
+
+		/* ── Blog Cards ── */
+		.blog-card-list { margin-top: 10px; }
+		.blog-card {
+			display: block;
+			text-decoration: none;
+			background: #f2f3f7;
+			border-radius: 6px;
+			padding: 28px 32px;
+			margin-bottom: 16px;
+			transition: transform 0.25s, box-shadow 0.25s, background 0.2s;
+			border-left: 4px solid #2c98f0;
+		}
+		.blog-card:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+			background: #eaedf5;
+		}
+		.blog-card-meta {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			margin-bottom: 10px;
+		}
+		.blog-date {
+			font-family: "Quicksand", sans-serif;
+			font-size: 12px;
+			font-weight: 700;
+			letter-spacing: 0.08em;
+			text-transform: uppercase;
+			color: #999;
+		}
+		.blog-num {
+			font-family: "Quicksand", sans-serif;
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			background: #2c98f0;
+			color: #fff;
+			padding: 2px 8px;
+			border-radius: 20px;
+		}
+		.blog-title {
+			font-family: "Playfair Display", Georgia, serif;
+			font-size: 22px;
+			font-weight: 700;
+			color: #1a1a1a;
+			line-height: 1.3;
+			margin-bottom: 10px;
+		}
+		.blog-excerpt {
+			font-size: 15px;
+			color: #666;
+			line-height: 1.7;
+			margin-bottom: 16px;
+		}
+		.blog-footer {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.blog-author {
+			font-family: "Quicksand", sans-serif;
+			font-size: 13px;
+			font-weight: 700;
+			color: #555;
+		}
+		.blog-readmore {
+			font-family: "Quicksand", sans-serif;
+			font-size: 13px;
+			font-weight: 700;
+			color: #2c98f0;
+			letter-spacing: 0.04em;
+		}
+
+		/* ── Blog Subscribe ── */
+		.blog-subscribe {
+			background: linear-gradient(135deg, #2c98f0 0%, #1a7ad4 100%);
+			border-radius: 8px;
+			padding: 32px 36px;
+			color: #fff;
+		}
+		.subscribe-title {
+			font-family: "Quicksand", sans-serif;
+			font-size: 20px;
+			font-weight: 700;
+			margin-bottom: 8px;
+			color: #fff;
+		}
+		.subscribe-desc {
+			font-size: 15px;
+			color: rgba(255,255,255,0.8);
+			margin-bottom: 20px;
+			line-height: 1.6;
+		}
+		.btn-subscribe {
+			display: inline-block;
+			background: #fff;
+			color: #2c98f0;
+			font-family: "Quicksand", sans-serif;
+			font-size: 14px;
+			font-weight: 700;
+			letter-spacing: 0.04em;
+			padding: 12px 28px;
+			border-radius: 4px;
+			text-decoration: none;
+			transition: transform 0.2s, box-shadow 0.2s;
+		}
+		.btn-subscribe:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+			color: #1a7ad4;
+		}
+	</style>
+</head>
 	<body>
 	<div id="colorlib-page">
 		<div class="container-wrap">
@@ -68,6 +269,7 @@
 						<li><a href="#" data-nav-section="Projects">Projects</a></li>
 						<li><a href="#" data-nav-section="Teaching">Teaching</a></li>
 						<li><a href="#" data-nav-section="Personal">Personal</a></li>
+						<li><a href="#" data-nav-section="Blog">Blog</a></li>
 						<li><a href="#" data-nav-section="Contact">Contact</a></li>
 					</ul>
 				</div>
@@ -90,28 +292,45 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</aside>
 
 		<div id="colorlib-main">
-				<section class="colorlib-about" data-section="about" style="height: 100vh;">
+				<section class="colorlib-about" data-section="about" style="min-height: 100vh; height: auto; padding-bottom: 60px;">
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-12">
 							<div class="row row-bottom-padded-sm animate-box" data-animate-effect="fadeInLeft">
 								<div class="col-md-12">
 									<div class="about-desc">
-										<h1 class="colorlib-heading">About me </h1>
-										<ul>
-											<li> 
-												I am a Computer Architect building the next generation of AI compute at <a href="https://www.arm.com/">ARM Ltd.</a>
-											</li>
-											<li>
-												My interests are Memory Systems, Hardware Security and FPGA based hardware acceleration.
-											</li>
-											<li>
-												I'm physically based in Austin, Texas. The soul is still in Chennai, Tamil Nadu.
-											</li>											
-										</ul>
+										<h1 class="colorlib-heading">About me</h1>
+										<p class="about-intro">I am a Computer Architect building the next generation of AI compute at <a href="https://www.arm.com/">ARM Ltd.</a> My interests span Memory Systems, Hardware Security, and FPGA-based hardware acceleration. Physically based in Austin, Texas &mdash; the soul is still in Chennai, Tamil Nadu.</p>
 									</div>
 								</div>
 							</div>
+						</div>
+					</div>
+
+					<!-- Travel Photo Mosaic -->
+					<div class="row animate-box" data-animate-effect="fadeInLeft" style="margin-top: 20px;">
+						<div class="col-md-12">
+							<a href="travel.html" class="travel-mosaic-link" title="Click for more travel photos">
+								<div class="travel-mosaic">
+									<div class="travel-mosaic-inner">
+										<div class="tm-col tm-col-wide">
+											<div class="tm-photo"><img src="images/travel_pics/PXL_20240524_225134440.jpg" alt="Travel" loading="lazy" draggable="false"></div>
+											<div class="tm-photo"><img src="images/travel_pics/PXL_20230520_195756604.jpg" alt="Travel" loading="lazy" draggable="false"></div>
+										</div>
+										<div class="tm-col">
+											<div class="tm-photo"><img src="images/travel_pics/_A7R4668.JPG" alt="Travel" loading="lazy" draggable="false"></div>
+											<div class="tm-photo"><img src="images/travel_pics/PXL_20241225_070157139.jpg" alt="Travel" loading="lazy" draggable="false"></div>
+										</div>
+										<div class="tm-col tm-col-portrait">
+											<div class="tm-photo tm-photo-full"><img src="images/travel_pics/PXL_20241223_100746279.PORTRAIT.jpg" alt="Travel" loading="lazy" draggable="false"></div>
+										</div>
+									</div>
+									<div class="travel-caption">
+										<span class="travel-caption-icon">&#9992;</span>
+										I like to travel &mdash; click for more pics
+									</div>
+								</div>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -133,7 +352,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					            <div class="timeline-entry-inner">
 
 					               <div class="timeline-icon color-1">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-briefcase3"></i>
 					               </div>
 
 					               <div class="timeline-label">
@@ -151,7 +370,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					            <div class="timeline-entry-inner">
 
 					               <div class="timeline-icon color-1">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-briefcase3"></i>
 					               </div>
 
 					               <div class="timeline-label">
@@ -169,7 +388,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					            <div class="timeline-entry-inner">
 
 					               <div class="timeline-icon color-1">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-briefcase3"></i>
 					               </div>
 
 					               <div class="timeline-label">
@@ -189,7 +408,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-3">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-briefcase3"></i>
 					               </div>
 					               <div class="timeline-label">
 					               	<h2><a href="#"><a href="https://shakti.org.in/">Shakti Processors</a> - Student Researcher </a> <span style="float: right;">Sep 2019 - Dec 2019</span></h2>							
@@ -229,7 +448,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					            <div class="timeline-entry-inner">
 
 					               <div class="timeline-icon color-1">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-code"></i>
 					               </div>
 
 					               <div class="timeline-label">
@@ -252,7 +471,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-2">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-code"></i>
 					               </div>
 					               <div class="timeline-label">
 					               	<h2><a href="https://github.com/rishabh-chitoor/FESI_protocol">Novel 4-stage Cache Coherence Protocol</a> <span style="float: right;">Spring 2021</span></h2>
@@ -291,7 +510,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					            <div class="timeline-entry-inner">
 
 					               <div class="timeline-icon color-1">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-code"></i>
 					               </div>
 
 					               <div class="timeline-label">
@@ -310,7 +529,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-2">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-code"></i>
 					               </div>
 					               <div class="timeline-label">
 					                  <h2><a href="https://github.com/rishabh-c-s/Cross_Core_Covert_Channel">Cross-Core Covert Channel</a> <span style="float: right;"></span></h2>
@@ -330,7 +549,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 						<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-3">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-code"></i>
 					               </div>
 					               <div class="timeline-label">
 					                  <h2><a href="https://github.com/rishabh-c-s/RISCV-Processor">Expanded 5-stage Pipelined RISCV-32I Processor</a> <span style="float: right;"></span></h2>
@@ -353,7 +572,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 						<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-4">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-code"></i>
 					               </div>
 					               <div class="timeline-label">
 					                  <h2><a href="https://github.com/rishabh-c-s/gaming_arcade_LALABOTS">LALABOTS - An Arcade of Video Games</a> <span style="float: right;"></span></h2>
@@ -398,7 +617,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					            <div class="timeline-entry-inner">
 
 					               <div class="timeline-icon color-1">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-book"></i>
 					               </div>
 
 					               <div class="timeline-label">
@@ -437,7 +656,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					            <div class="timeline-entry-inner">
 
 					               <div class="timeline-icon color-2">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-book"></i>
 					               </div>
 
 					               <div class="timeline-label">
@@ -470,7 +689,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-3">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-book"></i>
 					               </div>
 					               <div class="timeline-label">
 					               	<h2><a href="http://www.carizen.com/carizen/index.php">Corporate Training on SW Basics </a> <span style="float: right;">Summer 2018</span></h2>
@@ -490,7 +709,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 						<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
 					            <div class="timeline-entry-inner">
 					               <div class="timeline-icon color-4">
-					                  <i class="icon-pen2"></i>
+					                  <i class="icon-book"></i>
 					               </div>
 					               <div class="timeline-label">
 					               	<h2><a href="https://avantifellows.org/">Mentor for Underprivileged High School Students</a> <span style="float: right;">Aug 2017 - Apr 2018</span></h2>
@@ -590,7 +809,46 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			</section>
 
 
-			<section class="colorlib-contact" data-section="Contact" style="height: 100vh;">
+			<section class="colorlib-experience colorlib-blog" data-section="Blog" style="min-height: 100vh; height: auto; padding-bottom: 60px;">
+				<div class="colorlib-narrow-content">
+					<div class="row">
+						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
+							<span class="heading-meta">Writing</span>
+							<h2 class="colorlib-heading animate-box">Blog</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="blog-card-list">
+								<a href="images/farming_blog.html" class="blog-card animate-box" data-animate-effect="fadeInLeft">
+									<div class="blog-card-meta">
+										<span class="blog-date">April 22, 2026</span>
+										<span class="blog-num">Blog #1</span>
+									</div>
+									<h3 class="blog-title">Farming Is Not Sacred. It Is Our Colonial Inheritance.</h3>
+									<p class="blog-excerpt">The image of the sun-scorched farmer as the backbone of Bharat is not ancient &mdash; it was manufactured by the British. And we have been faithfully worshipping it ever since.</p>
+									<div class="blog-footer">
+										<span class="blog-author">Rishabh Chitoor</span>
+										<span class="blog-readmore">Read &rarr;</span>
+									</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 40px;">
+						<div class="col-md-12">
+							<div class="blog-subscribe animate-box" data-animate-effect="fadeInLeft">
+								<h4 class="subscribe-title">Stay in the loop</h4>
+								<p class="subscribe-desc">I write occasionally about technology, policy, and ideas. No spam, just pebbles.</p>
+								<a href="mailto:write2csrishabh@gmail.com?subject=Subscribe to Rishabh Blog&body=Hi Rishabh, please subscribe me to your blog!" class="btn-subscribe">Subscribe via Email &rarr;</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+
+						<section class="colorlib-contact" data-section="Contact" style="height: 100vh;">
 				<div class="colorlib-narrow-content">
 					<div class="row">
 						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Farming Is Not Sacred. It Is Our Colonial Inheritance. — Rishabh Chitoor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400;1,600&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --ink-light: #555;
+      --accent: #c0392b;
+      --bg: #faf9f7;
+      --rule: #e0dbd4;
+      --quote-bg: #f3f0eb;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Lora', Georgia, serif;
+      font-size: 19px;
+      line-height: 1.85;
+      -webkit-font-smoothing: antialiased;
+    }
+    .nav-back {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(250,249,247,0.96);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--rule);
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-back a {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back a:hover { color: var(--accent); }
+    .nav-back .sep { color: var(--rule); font-size: 13px; font-family: 'Source Sans 3', sans-serif; }
+    #progress-bar {
+      position: fixed;
+      top: 49px; left: 0;
+      height: 2px;
+      background: var(--accent);
+      width: 0%;
+      z-index: 200;
+      transition: width 0.08s linear;
+    }
+    article {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 100px 32px 80px;
+    }
+    .post-header {
+      margin-bottom: 3rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .post-meta {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .post-byline {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--ink-light);
+    }
+    .post-byline strong { color: var(--ink); }
+    .epigraph {
+      margin: 0 0 2.5rem;
+      padding: 1.5rem 2rem;
+      background: var(--quote-bg);
+      border-left: 3px solid var(--accent);
+      font-style: italic;
+      color: var(--ink-light);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+    .epigraph cite {
+      display: block;
+      margin-top: 0.8rem;
+      font-style: normal;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    p { margin-bottom: 1.5rem; }
+    em { font-style: italic; }
+    strong { font-weight: 600; }
+    h2 {
+      font-size: 21px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 3rem 0 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+    }
+    .pull-stat {
+      margin: 2rem 0;
+      padding: 1.4rem 1.8rem;
+      background: var(--quote-bg);
+      border-left: 3px solid var(--accent);
+      font-style: italic;
+      line-height: 1.65;
+      font-size: 18px;
+    }
+    .pull-stat .stat-num {
+      font-style: normal;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 22px;
+    }
+    .sources {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+    }
+    .sources h3 {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 1rem;
+    }
+    .sources ol { padding-left: 1.5rem; }
+    .sources li {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .author-sig {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .author-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .sig-name {
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .sig-role {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 13px;
+      color: var(--ink-light);
+      margin-top: 2px;
+    }
+    .cta-box {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: var(--quote-bg);
+      border-radius: 3px;
+      text-align: center;
+    }
+    .cta-box p {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 15px;
+      color: var(--ink-light);
+      margin-bottom: 1.2rem;
+      font-style: normal;
+    }
+    .cta-box a {
+      display: inline-block;
+      padding: 10px 26px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: opacity 0.2s;
+    }
+    .cta-box a:hover { opacity: 0.82; }
+    @media (max-width: 600px) {
+      article { padding: 80px 20px 60px; }
+      .nav-back { padding: 12px 20px; }
+      h1 { font-size: 26px; }
+      body { font-size: 17px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav-back">
+  <a href="../index.html">← Back</a>
+  <span class="sep">/</span>
+  <a href="../index.html" style="color:var(--ink);font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;">Rishabh Chitoor</a>
+  <span class="sep">/</span>
+  <span style="font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--ink-light);">Blog</span>
+</nav>
+
+<div id="progress-bar"></div>
+
+<article>
+  <header class="post-header">
+    <div class="post-meta">April 22nd, 2026 &nbsp;·&nbsp; Blog #1 &nbsp;·&nbsp; ~10 min read</div>
+    <h1>Farming Is Not Sacred.<br>It Is Our Colonial Inheritance.</h1>
+    <div class="post-byline">By <strong>Rishabh Chitoor</strong></div>
+  </header>
+
+  <blockquote class="epigraph">
+    "If you want to understand today, you have to search yesterday."
+    <cite>— Pearl S. Buck</cite>
+  </blockquote>
+
+  <p>The sun-scorched patriarch, the backbone of Bharat, the sacred soul to be protected at all costs — this image is not ancient. It is not in the Vedas. It is not something our ancestors chose. It was <em>manufactured</em>. By the British. And we have been faithfully worshipping it ever since.</p>
+
+  <h2>The Movie We've Watched</h2>
+
+  <p>I've seen this scene countless times in Tamil cinema. The aging farmer stands in his field at dusk. His lungi is worn thin. His hands are cracked from decades of labor. He has sold his wife's jewelry, borrowed against the land, and gone without food, so that his children could study, move to the city. But none of it was enough. The camera lingers on his face — tired, proud, stoic. He jumps into the well. The background score swells. We cry. The hero then breaks the fourth wall and lectures the audience on how society has failed the farmer, yet again.</p>
+
+  <p>The farmer who suffers so we city-dwellers can go about our jolly lives with our plates full. The noble sacrifice. We go home from the theatre feeling grateful, a little guilty, deeply moved.</p>
+
+  <p>And then we vote for politicians who promise to keep him exactly where he is.</p>
+
+  <p>That is the trap. We love the farmer so deeply, so emotionally, so cinematically. And then we build a political system that ensures he stays in that shot forever. Cracked hands. Worn lungi. Swelling background score.</p>
+
+  <p>We have confused <em>romanticizing</em> a person's suffering with <em>respecting</em> them.</p>
+
+  <h2>This Is Not Who We Were</h2>
+
+  <p>We already know the history — that before the British arrived, India held somewhere around a third of the entire world's economic output. We know about the weavers, the shipbuilders, the metallurgists, the traders. We know what was deliberately dismantled, how and why.</p>
+
+  <div class="pull-stat">
+    Economic historian Indrajit Ray estimated Bengal's shipbuilding output in the 16th–17th centuries at <span class="stat-num">223,250 tons</span> annually — ten times the output of all nineteen North American colonies combined.
+  </div>
+
+  <p>Here is one more number: India's share of global <em>industrial</em> output fell from <strong>25% in 1750 to under 2% in 1900</strong>.</p>
+
+  <p>That collapse did not happen because Indians chose to become farmers. It happened because the people who'd been experts — the weavers, craftsmen, sculptors — lost their livelihoods to manufactured British competition and had nowhere left to go except the fields. India was converted from an exporter of coveted, high-quality finished products into an exporter of raw materials. The only livelihood left was growing those raw materials. The land was always there. The craft was killed.</p>
+
+  <p>India did not <em>become</em> an agrarian society. India was <em>made</em> into one.</p>
+
+  <p>And then we gained independence, looked at what the British had turned us into, and called it our identity.</p>
+
+  <h2>We Still Worship the Wound</h2>
+
+  <p>A friend once told me: "Democracy is two wolves and a sheep voting on what's for dinner." While I don't imply farmers are wolves, democracy incentivizes political parties to disproportionately massage the largest voter bloc — many times at the expense of overall progress. Farming subsidies have more to do with keeping "farmer votes" than with the food the nation needs.</p>
+
+  <div class="pull-stat">
+    Agriculture employs <span class="stat-num">~43%</span> of India's workforce. It contributes roughly <span class="stat-num">18%</span> of GDP. Nearly half of every working person is engaged in a sector that produces less than a fifth of national wealth.
+  </div>
+
+  <p>The gap between the labor poured in and the income that comes back out is a generations-deep structural wound, and we have been decorating it instead of dressing it.</p>
+
+  <p>Under the Income Tax Act, all agricultural income in India is completely exempt from tax — every rupee, regardless of how much one earns. A tenured mathematician in Chennai earning ₹13 lakh a year pays income tax. A landowner in Haryana earning ₹50 lakh a year from his fields pays nothing. How does a civilization go from inventing zero to punishing the mathematician?</p>
+
+  <p>This law was designed to protect small, marginal farmers from financial ruin. On paper, a genuinely noble intention. But here is what it quietly became.</p>
+
+  <p>According to the ICE 360° survey, there are ~5 million "wealthy farmer" households each earning over ₹25 lakh a year. They make up only 8% of the farming population, but control 28% of the sector's entire income. Around 45% of these wealthy households also collect benefits from PM-Kisan — the government scheme meant to support farmers in need — because PM-Kisan excludes income tax payers, and since all their income is agricultural, they are not classified as income tax payers.</p>
+
+  <p>The same law that shields their wealth from taxation <em>also lets them pocket welfare money meant for the poor</em>. A schoolteacher pays tax. A crore-earning landlord does not — and also collects a welfare check on top. As a nation, we have made questioning this imbalance untouchable.</p>
+
+  <p>This is where good intentions, left unexamined for long enough, become someone else's advantage.</p>
+
+  <p>In 2020, the government tried to shake things up. Three farm laws were passed to open up agricultural markets — allowing farmers to sell directly to buyers, access prices beyond the government-controlled mandi system, and escape middlemen. Most economists agreed the direction was right. The intent was to give farmers <em>more</em> freedom, not less.</p>
+
+  <p>The farm laws had real flaws. The government communicated them poorly. Farmers had genuine fears, particularly about the Minimum Support Price being dismantled. These concerns deserved to be heard and addressed. The protests were not wrong to happen.</p>
+
+  <p>But any reform to Indian agriculture, no matter how well-designed, faces a structural veto. Not an economic veto. A <em>political</em> one. In India, the farmer became sacred. And you don't touch the sacred.</p>
+
+  <p>The laws were repealed within 14 months. The repeal bill passed in Parliament in <strong>four minutes</strong> without debate or discussion. The fear of being seen as anti-farmer had become so powerful that even a conversation about the future of farming was too dangerous to have. It was labeled anti-national. It reminds me of how 1960s America labeled anyone proposing social reform a communist — "anti-communism" became a political weapon, not an argument.</p>
+
+  <h2>The Deaths We Don't Want to Understand</h2>
+
+  <div class="pull-stat">
+    From the NCRB ADSI Report 2023: <span class="stat-num">10,786</span> farmer deaths by suicide, accounting for <span class="stat-num">6.3%</span> of all suicides in India. Every year, we mourn. Every year, we demand more MSP and loan waivers. And every year, the suicides continue.
+  </div>
+
+  <p>Has anyone stopped to ask why?</p>
+
+  <p>Here is an uncomfortable answer: farmers are not dying because farming is under-supported. They are dying because they are trapped in a profession they cannot leave, in an economy that has moved past them, with no road out.</p>
+
+  <p>The debt is real. The crop failures are real. The despair is real. But the root of that despair is not that farming is too hard. It is that <em>there is nothing else</em>. No alternative. No plan B. A family that has farmed for five generations, on increasingly fragmented land, with rising input costs and dwindling returns, has no vocabulary for a different life. The system has given them better seeds, better loans, better insurance. But it has never once asked: <strong>what would you like to become?</strong></p>
+
+  <p>More MSP and more subsidies are a band-aid on a bursting dam. The only answer is more choices, more pathways, more doors.</p>
+
+  <p>The Tamil farmer from the movie — the one who sold his gold, borrowed against his land, sacrificed everything — he didn't do it because he loved farming. He did it because there was nothing else he knew how to do, and nobody offered him an alternative. We romanticized his limitation and called it nobility.</p>
+
+  <p>This is not pride. This is colonially installed paralysis. And we are calling it patriotism.</p>
+
+  <h2>A Take On What Care Can Look Like</h2>
+
+  <p>It does not look like another MSP hike that delays the crisis to the next election season. It does not look like another movie where the hero lectures the audience on the farmers' sacrifices. It does not look like calling any policy that changes agriculture "anti-national" and shutting down the conversation.</p>
+
+  <p>Real care looks like building pathways into logistics, food processing, cold chain, rural manufacturing, artisan revival, coastal trade. It means policy that respects farmers' intelligence, invests in their futures, and trusts their capacity to evolve. Real care means saying, loudly and without apology: <em>a farmer who stops farming is not a failure. He is the very success story this country has been postponing for 79 years.</em></p>
+
+  <p><strong>First</strong>, reform taxation. Small and marginal farmers (those with less than 2 hectares) should remain tax-protected. But farmers with substantial income or landholdings should be taxed, with that revenue flowing directly back into farmer welfare and transition support.</p>
+
+  <p><strong>Second</strong>, Punjab and Haryana fed this nation when it was starving. That debt is real. The federal government should formalize a time-bound "Agricultural Transition Fund" — a dedicated central allocation flowing to high-agriculture states specifically for economic diversification, skill development, and industry seeding. A thank-you that actually means something.</p>
+
+  <p><strong>Third</strong>, the MSP system needs to evolve, not disappear. A new framework that legally mandates MSP as a floor while allowing market pricing above it would serve both food security and farmer prosperity.</p>
+
+  <p>The measure of a healthy agricultural sector is not how many millions farm. It is how well each farmer lives, how much food the country produces, and how freely each farming family can choose something different if they want to. <em>A reduction in the number of farmers is not a problem. It is the goal.</em> We have been measuring the wrong thing, and it has cost lives.</p>
+
+  <h2>The Indian Farmer</h2>
+
+  <p>They didn't ask to inherit land that gets more fragmented with every generation. They didn't ask for the debt, the failing monsoon, the middlemen, or the politician who shows up every five years with promises and an MSP hike. They didn't ask to be the symbol of a nation's soul while carrying a disproportionate share of its burdens.</p>
+
+  <p>And they certainly didn't ask to be told, over and over, that to stay in the field is noble while the rest of the country moved on.</p>
+
+  <p>Our ancestors were not always farmers. Before 1750, before the economy was deliberately and surgically rewired, the communities that now till this land were building, weaving, trading and sailing. What came next wasn't a choice. And it doesn't have to remain a destiny.</p>
+
+  <p>They deserve more. Not because farming is beneath them, but because <em>choosing</em> to farm is very different from <em>being left with no other option</em>. The government that truly loves the farmer will not just promise a better price for their wheat. It will ask: what would you like to become? And how can we enable it?</p>
+
+  <h2>Pebbles</h2>
+
+  <p>A nation that does not know its history is condemned to re-live its oppression — just under a different name. The first act of post-colonial recovery is intellectual: to acknowledge what was done. Not for anger, not for reparations, but because you cannot rebuild what you don't know you lost.</p>
+
+  <p>India is not an agrarian civilization. India is an ancient, high-skilled, enormously diverse civilization that was <em>forced</em> onto the soil and has been calling that force "tradition" ever since. The farmer is not the problem. The romanticization of the farmer <em>is</em> the problem. It is the political tool that has kept agricultural reform impossible, kept farming communities trapped, and kept the grief of farmer suicides flowing into platitudes instead of policy.</p>
+
+  <p>The best thing we can do for the farmer today is build them a way out — and cheer when they take it.</p>
+
+  <div class="cta-box">
+    <p>Agree? Disagree? India doesn't need more reverence for its problems. It needs people willing to debate them — and throw a few pebbles along the way.</p>
+    <a href="mailto:write2csrishabh@gmail.com?subject=Re: Farming Is Not Sacred">Write to me →</a>
+  </div>
+
+  <div class="author-sig">
+    <img src="../images/pic.jpg" alt="Rishabh Chitoor" class="author-avatar" onerror="this.style.display='none'">
+    <div>
+      <div class="sig-name">Rishabh Chitoor</div>
+      <div class="sig-role">Computer Architect · Part-Time Philosopher · Austin, TX</div>
+    </div>
+  </div>
+
+  <div class="sources">
+    <h3>Sources &amp; Data Referenced</h3>
+    <ol>
+      <li>National Crime Records Bureau, Accidental Deaths &amp; Suicides in India (ADSI) Report, 2023</li>
+      <li>Angus Maddison, <em>Contours of the World Economy, 1–2030 AD</em> (OECD)</li>
+      <li>ICE 360° / PRICE Survey on Agricultural Wealth Distribution (BusinessToday, August 2025)</li>
+      <li>Section 10(1), Income Tax Act, 1961 — Central Board of Direct Taxes, India</li>
+      <li>PM-Kisan eligibility criteria: Ministry of Agriculture and Farmers Welfare, Government of India</li>
+      <li>Periodic Labour Force Survey (PLFS) Annual Report 2025, MoSPI — agriculture's share of employment: 43%</li>
+      <li>UK House of Commons Library: <em>Farmers' Protests in India and Agricultural Reforms</em> (2021)</li>
+      <li>Wikipedia: 2020 Indian Agriculture Acts, Economic History of India, De-industrialisation of India</li>
+      <li>PRS India: Demand for Grants 2023-24 Analysis — Agriculture and Farmers Welfare</li>
+    </ol>
+  </div>
+</article>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel — Rishabh Chitoor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --card-bg: #1a1a1a;
+      --text: #f0ede8;
+      --muted: #888;
+      --accent: #e8c97e;
+      --border: #2a2a2a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Quicksand', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* Disable right-click and selection */
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    img {
+      pointer-events: none;
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+    }
+
+    /* ── Header ── */
+    header {
+      padding: 60px 48px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 32px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--accent); }
+    .back-link svg { width: 14px; height: 14px; }
+
+    header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(36px, 6vw, 60px);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    header p {
+      font-size: 15px;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.7;
+    }
+    .photo-count {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* ── Masonry Grid ── */
+    main {
+      padding: 40px 32px 80px;
+    }
+    .masonry {
+      column-count: 3;
+      column-gap: 12px;
+    }
+    @media (max-width: 900px) { .masonry { column-count: 2; } }
+    @media (max-width: 560px) { .masonry { column-count: 1; } header { padding: 40px 24px 30px; } main { padding: 24px 16px 60px; } }
+
+    .photo-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 4px;
+      background: var(--card-bg);
+      cursor: default;
+    }
+    .photo-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.5s;
+      filter: brightness(0.92) saturate(1.05);
+    }
+    .photo-item:hover img {
+      transform: scale(1.03);
+      filter: brightness(1) saturate(1.1);
+    }
+
+    /* Context menu blocker overlay - invisible but captures right click */
+    .photo-item::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+    }
+
+    /* ── Lightbox ── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(8px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #lightbox.open { display: flex; }
+    #lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 4px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+      pointer-events: none;
+    }
+    .lb-close {
+      position: fixed;
+      top: 20px; right: 24px;
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.22); }
+    .lb-nav {
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .lb-nav:hover { background: rgba(255,255,255,0.22); }
+    #lb-prev { left: 16px; }
+    #lb-next { right: 16px; }
+    #lb-counter {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 32px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="../index.html" class="back-link">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 5l-7 7 7 7"/>
+    </svg>
+    Back to site
+  </a>
+  <h1>Travels &amp;<br><em style="font-style:italic;font-family:'Playfair Display',serif;font-weight:400;">Places</em></h1>
+  <p>A collection of moments from around the world — landscapes, cities, and everything in between.</p>
+  <span class="photo-count" id="photo-count"></span>
+</header>
+
+<main>
+  <div class="masonry" id="gallery"></div>
+</main>
+
+<div id="lightbox">
+  <button class="lb-close" id="lb-close">✕</button>
+  <button class="lb-nav" id="lb-prev">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-nav" id="lb-next">›</button>
+  <div id="lb-counter"></div>
+</div>
+
+<footer>
+  <a href="../index.html">← Rishabh Chitoor</a>
+</footer>
+
+<script>
+  // Disable right-click
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  // Disable keyboard shortcuts for saving
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['s','u','p'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+    }
+  });
+
+  const photos = [
+    'images/travel_pics/GX010005_2402400_1750356223.jpg',
+    'images/travel_pics/PXL_20220102_113900654 (1).jpg',
+    'images/travel_pics/PXL_20220519_152825103.jpg',
+    'images/travel_pics/PXL_20220519_175921355.jpg',
+    'images/travel_pics/PXL_20230520_195756604.jpg',
+    'images/travel_pics/PXL_20230613_145451307.jpg',
+    'images/travel_pics/PXL_20231223_071612049.NIGHT.jpg',
+    'images/travel_pics/PXL_20240402_193329835-EFFECTS.jpg',
+    'images/travel_pics/PXL_20240523_232510538~2.jpg',
+    'images/travel_pics/PXL_20240524_225134440.jpg',
+    'images/travel_pics/PXL_20240527_210000310~2.jpg',
+    'images/travel_pics/PXL_20240616_215824414.MP~2.jpg',
+    'images/travel_pics/PXL_20240617_000006964.MP.jpg',
+    'images/travel_pics/PXL_20241215_232557511.MP~2.jpg',
+    'images/travel_pics/PXL_20241223_100746279.PORTRAIT.jpg',
+    'images/travel_pics/PXL_20241225_070157139.jpg',
+    'images/travel_pics/PXL_20250618_203306718~2.jpg',
+    'images/travel_pics/PXL_20250702_193931491~2.jpg',
+    'images/travel_pics/PXL_20250706_093848343~2.jpg',
+    'images/travel_pics/PXL_20250706_113944395~2.jpg',
+    'images/travel_pics/PXL_20250706_130845581~2.jpg',
+    'images/travel_pics/PXL_20250706_135819902.jpg',
+    'images/travel_pics/PXL_20260223_222335830.PORTRAIT.jpg',
+    'images/travel_pics/_A7R4668.JPG',
+  ];
+
+  document.getElementById('photo-count').textContent = photos.length + ' photographs';
+
+  const gallery = document.getElementById('gallery');
+  photos.forEach((src, i) => {
+    const item = document.createElement('div');
+    item.className = 'photo-item';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'Travel photo ' + (i + 1);
+    img.loading = 'lazy';
+    item.appendChild(img);
+    item.addEventListener('click', () => openLightbox(i));
+    gallery.appendChild(item);
+  });
+
+  // Lightbox
+  let current = 0;
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbCounter = document.getElementById('lb-counter');
+
+  function openLightbox(idx) {
+    current = idx;
+    lbImg.src = photos[idx];
+    lbCounter.textContent = (idx + 1) + ' / ' + photos.length;
+    lb.classList.add('open');
+  }
+  function closeLightbox() {
+    lb.classList.remove('open');
+    lbImg.src = '';
+  }
+  function prev() {
+    current = (current - 1 + photos.length) % photos.length;
+    openLightbox(current);
+  }
+  function next() {
+    current = (current + 1) % photos.length;
+    openLightbox(current);
+  }
+
+  document.getElementById('lb-close').addEventListener('click', closeLightbox);
+  document.getElementById('lb-prev').addEventListener('click', prev);
+  document.getElementById('lb-next').addEventListener('click', next);
+  lb.addEventListener('click', e => { if (e.target === lb) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+  });
+</script>
+</body>
+</html>
