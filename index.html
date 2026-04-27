@@ -231,6 +231,22 @@
 			margin-bottom: 20px;
 			line-height: 1.6;
 		}
+		/* ── Subscribe Form ── */
+		.subscribe-field-row { display: flex; }
+		.subscribe-input {
+			width: 100%;
+			padding: 10px 14px;
+			border: none;
+			border-radius: 4px;
+			font-family: "Quicksand", sans-serif;
+			font-size: 14px;
+			color: #1a1a1a;
+			background: rgba(255,255,255,0.92);
+			outline: none;
+			transition: background 0.2s;
+		}
+		.subscribe-input:focus { background: #fff; }
+		.subscribe-textarea { resize: vertical; min-height: 54px; }
 		.btn-subscribe {
 			display: inline-block;
 			background: #fff;
@@ -241,6 +257,8 @@
 			letter-spacing: 0.04em;
 			padding: 12px 28px;
 			border-radius: 4px;
+			border: none;
+			cursor: pointer;
 			text-decoration: none;
 			transition: transform 0.2s, box-shadow 0.2s;
 		}
@@ -279,7 +297,7 @@
 				
 				<ul>						
 					<li><i class="icon-world"></i><a href="images/CV.pdf" target="_blank">CV</a></li><br>
-					<li><a href="mailto:write2csrishabh@gmail.com" target="_blank"><i class="icon-mail6"></i> Mail</a></li><br>
+					<li><a href="#" onclick="document.querySelector('[data-section=\'Contact\']').scrollIntoView({behavior:'smooth'}); return false;"><i class="icon-mail6"></i> Mail</a></li><br>
 					<li><a href="https://twitter.com/rishabh_c_s" target="_blank"><i class="icon-twitter2"></i> Twitter</a></li><br>
 					<li><a href="https://github.com/rishabh-chitoor" target="_blank"><i class="icon-github"></i> Github</a></li><br>
 					<li><a href="https://www.linkedin.com/in/rishabh-chitoor-145182158/" target="_blank"><i class="icon-linkedin2"></i> LinkedIn</a></li>
@@ -367,7 +385,19 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 							<div class="blog-subscribe animate-box" data-animate-effect="fadeInLeft">
 								<h4 class="subscribe-title">Stay in the loop</h4>
 								<p class="subscribe-desc">I write occasionally about policy, ideas and technology. No spam, just pebbles.</p>
-								<a href="mailto:write2csrishabh@gmail.com?subject=Subscribe to Rishabh Blog&body=Hi Rishabh, please subscribe me to your blog!" class="btn-subscribe">Subscribe via Email &rarr;</a>
+								<form id="subscribe-form" novalidate>
+									<div class="subscribe-field-row">
+										<input type="email" id="sub-email" class="subscribe-input" placeholder="your@email.com" required>
+									</div>
+									<div class="subscribe-field-row" style="margin-top:10px;">
+										<textarea id="sub-message" class="subscribe-input subscribe-textarea" placeholder="Any notes? (optional)" rows="2"></textarea>
+									</div>
+									<div class="subscribe-field-row" style="margin-top:12px;">
+										<button type="submit" class="btn-subscribe">Subscribe &rarr;</button>
+									</div>
+									<p id="subscribe-success" style="display:none;margin-top:12px;color:#fff;font-size:14px;font-weight:600;">&#10003; You're in! I'll be in touch.</p>
+									<p id="subscribe-error" style="display:none;margin-top:12px;color:#ffe0e0;font-size:14px;">Something went wrong — please try again or email me directly.</p>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -929,6 +959,49 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	
 	<!-- MAIN JS -->
 	<script src="js/main.js"></script>
+
+	<script>
+	/* ── Blog subscribe form → Formspree ── */
+	document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
+		e.preventDefault();
+		var email   = document.getElementById('sub-email').value.trim();
+		var message = document.getElementById('sub-message').value.trim();
+		var success = document.getElementById('subscribe-success');
+		var error   = document.getElementById('subscribe-error');
+		var btn     = this.querySelector('button[type="submit"]');
+
+		if (!email) return;
+
+		btn.disabled = true;
+		btn.textContent = 'Sending…';
+		success.style.display = 'none';
+		error.style.display   = 'none';
+
+		try {
+			var res = await fetch('https://formspree.io/f/mojyzdng', {
+				method: 'POST',
+				headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					email:   email,
+					message: message || '(no notes)',
+					_subject: 'New Blog Subscriber: ' + email
+				})
+			});
+			if (res.ok) {
+				success.style.display = 'block';
+				document.getElementById('sub-email').value   = '';
+				document.getElementById('sub-message').value = '';
+				btn.textContent = 'Subscribed ✓';
+			} else {
+				throw new Error('bad response');
+			}
+		} catch(err) {
+			error.style.display = 'block';
+			btn.disabled = false;
+			btn.textContent = 'Subscribe →';
+		}
+	});
+	</script>
 
 	</body>
 </html>

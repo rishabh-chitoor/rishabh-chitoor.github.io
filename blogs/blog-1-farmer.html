@@ -367,7 +367,20 @@
 
   <div class="cta-box">
     <p><em>Agree? Disagree? Drop a comment. Because India doesn't need more reverence for its problems. It needs people willing to debate them. And throw a few pebbles along the way.</em></p>
-    <a href="mailto:write2csrishabh@gmail.com?subject=Re: Farming Is Not Sacred">Write to me →</a>
+    <form id="blog-contact-form" novalidate style="margin-top:0;">
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto;">
+        <input type="email" id="blog-email" placeholder="your@email.com" required
+          style="padding:10px 14px;border:1px solid var(--rule);border-radius:2px;font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--ink);background:#fff;outline:none;">
+        <textarea id="blog-message" placeholder="Your thoughts (optional)" rows="3"
+          style="padding:10px 14px;border:1px solid var(--rule);border-radius:2px;font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--ink);background:#fff;outline:none;resize:vertical;"></textarea>
+        <button type="submit"
+          style="padding:10px 26px;background:var(--accent);color:#fff;font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;border:none;border-radius:2px;cursor:pointer;transition:opacity 0.2s;align-self:center;">
+          Write to me →
+        </button>
+      </div>
+      <p id="blog-success" style="display:none;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;color:#2d7a4f;font-weight:600;">✓ Message sent! I'll be in touch.</p>
+      <p id="blog-error" style="display:none;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--accent);">Something went wrong — please try again.</p>
+    </form>
   </div>
 
   <div class="author-sig">
@@ -399,6 +412,46 @@
     const doc = document.documentElement;
     const pct = doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100;
     document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  document.getElementById('blog-contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var email   = document.getElementById('blog-email').value.trim();
+    var message = document.getElementById('blog-message').value.trim();
+    var success = document.getElementById('blog-success');
+    var error   = document.getElementById('blog-error');
+    var btn     = this.querySelector('button[type="submit"]');
+
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    success.style.display = 'none';
+    error.style.display   = 'none';
+
+    try {
+      var res = await fetch('https://formspree.io/f/mojyzdng', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email:    email,
+          message:  message || '(no message)',
+          _subject: 'Blog Response: Farming Is Not Sacred — from ' + email
+        })
+      });
+      if (res.ok) {
+        success.style.display = 'block';
+        document.getElementById('blog-email').value   = '';
+        document.getElementById('blog-message').value = '';
+        btn.textContent = 'Sent ✓';
+      } else {
+        throw new Error('bad response');
+      }
+    } catch(err) {
+      error.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Write to me →';
+    }
   });
 </script>
 </body>
