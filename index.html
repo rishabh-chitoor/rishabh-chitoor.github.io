@@ -547,6 +547,22 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	
 	<!-- MAIN JS -->
 	<script src="js/main.js"></script>
+	<script>
+	/* Fix: main.js intercepts ALL sidebar nav clicks as scroll anchors.
+	   For external pages, stop propagation so the browser follows the href normally. */
+	(function() {
+	  var externalLinks = ['experience.html', 'projects.html', 'teaching.html', 'personal.html'];
+	  document.querySelectorAll('#colorlib-main-menu a').forEach(function(a) {
+	    var href = a.getAttribute('href');
+	    if (externalLinks.indexOf(href) !== -1) {
+	      a.addEventListener('click', function(e) {
+	        e.stopImmediatePropagation();
+	        window.location.href = href;
+	      }, true);
+	    }
+	  });
+	})();
+	</script>
 
 	<script>
 	/* ── Blog subscribe form → Formspree ── */
