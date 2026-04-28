@@ -267,9 +267,72 @@
 			box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 			color: #1a7ad4;
 		}
+
+		/* ── Dark / Light mode ── */
+		:root {
+		  --dm-bg: #fff;
+		  --dm-text: #333;
+		  --dm-aside-bg: #f8f8f8;
+		  --dm-aside-text: #444;
+		  --dm-card-bg: #f2f3f7;
+		  --dm-card-hover: #eaedf5;
+		  --dm-blog-title: #1a1a1a;
+		  --dm-blog-excerpt: #666;
+		  --dm-about-intro: #444;
+		}
+		[data-theme="dark"] {
+		  --dm-bg: #181818;
+		  --dm-text: #d4d0c8;
+		  --dm-aside-bg: #111;
+		  --dm-aside-text: #bbb;
+		  --dm-card-bg: #242424;
+		  --dm-card-hover: #2e2e2e;
+		  --dm-blog-title: #e8e4da;
+		  --dm-blog-excerpt: #999;
+		  --dm-about-intro: #aaa;
+		}
+		body { background: var(--dm-bg) !important; color: var(--dm-text) !important; transition: background 0.3s, color 0.3s; }
+		#colorlib-aside { background: var(--dm-aside-bg) !important; }
+		#colorlib-aside a, #colorlib-aside .position { color: var(--dm-aside-text) !important; }
+		#colorlib-aside #colorlib-logo a { color: var(--dm-aside-text) !important; }
+		#colorlib-main { background: var(--dm-bg) !important; }
+		.about-intro { color: var(--dm-about-intro) !important; }
+		.blog-card { background: var(--dm-card-bg) !important; }
+		.blog-card:hover { background: var(--dm-card-hover) !important; }
+		.blog-title { color: var(--dm-blog-title) !important; }
+		.blog-excerpt { color: var(--dm-blog-excerpt) !important; }
+		.colorlib-heading, .heading-meta, h1, h2, h3, h4 { color: var(--dm-text) !important; }
+		[data-theme="dark"] .colorlib-feature .colorlib-text,
+		[data-theme="dark"] .colorlib-feature .colorlib-text a { color: var(--dm-text) !important; }
+		[data-theme="dark"] .colorlib-footer p, [data-theme="dark"] .colorlib-footer a { color: var(--dm-aside-text) !important; }
+		[data-theme="dark"] #colorlib-main-menu a { color: var(--dm-aside-text) !important; }
+		[data-theme="dark"] .colorlib-nav-toggle i,
+		[data-theme="dark"] .colorlib-nav-toggle i::before,
+		[data-theme="dark"] .colorlib-nav-toggle i::after { background: var(--dm-aside-text) !important; }
+		/* ── Toggle button ── */
+		#theme-toggle {
+		  position: fixed; top: 16px; right: 20px; z-index: 9999;
+		  background: none; border: 1.5px solid #aaa; border-radius: 20px;
+		  padding: 5px 14px; font-family: 'Quicksand', sans-serif;
+		  font-size: 13px; font-weight: 600; cursor: pointer; color: #777;
+		  transition: border-color 0.2s, color 0.2s, background 0.2s; letter-spacing: 0.03em;
+		}
+		#theme-toggle:hover { border-color: #2c98f0; color: #2c98f0; }
+		[data-theme="dark"] #theme-toggle { color: #aaa; border-color: #555; background: rgba(0,0,0,0.3); }
+		[data-theme="dark"] #theme-toggle:hover { border-color: #2c98f0; color: #2c98f0; }
 	</style>
+	<script>
+	/* Theme persistence — runs before paint */
+	(function(){
+	  var saved = localStorage.getItem('rc-theme');
+	  var prefer = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+	  document.documentElement.setAttribute('data-theme', saved || prefer);
+	})();
+	</script>
 </head>
 	<body>
+	<button id="theme-toggle" onclick="(function(){var t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);localStorage.setItem('rc-theme',t);document.getElementById('theme-toggle').textContent=t==='dark'?'\u2600 Light':'\u263e Dark';})();">&#9790; Dark</button>
+	<script>document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');document.getElementById('theme-toggle').textContent=t==='dark'?'\u2600 Light':'\u263e Dark';});</script>
 	<div id="colorlib-page">
 		<div class="container-wrap">
 		<a href="#" class="js-colorlib-nav-toggle colorlib-nav-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar"><i></i></a>
@@ -284,10 +347,10 @@
 					<ul>						
 						<li><a href="index.html" data-nav-section="about">About</a></li>
 						<li><a href="#" data-nav-section="Blog">Blog</a></li>
-						<li><a href="#" data-nav-section="Experience">Experience</a></li>
-						<li><a href="#" data-nav-section="Projects">Projects</a></li>
-						<li><a href="#" data-nav-section="Teaching">Teaching</a></li>
-						<li><a href="#" data-nav-section="Personal">Personal</a></li>						
+						<li><a href="experience.html">Experience</a></li>
+						<li><a href="projects.html">Projects</a></li>
+						<li><a href="teaching.html">Teaching</a></li>
+						<li><a href="personal.html">Personal</a></li>						
 						<li><a href="#" data-nav-section="Contact">Contact</a></li>
 					</ul>
 				</div>
@@ -318,7 +381,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 								<div class="col-md-12">
 									<div class="about-desc">
 										<h1 class="colorlib-heading">About me</h1>
-										<p class="about-intro">I am a Computer Architect building the next generation of AI compute at <a href="https://www.arm.com/">ARM Ltd.</a> My interests span Memory Systems, Hardware Security, and FPGA-based hardware acceleration. Physically based in Austin, Texas &mdash; the soul is still in Chennai, Tamil Nadu.</p>
+										<p class="about-intro">I am a Computer Architect building the next generation of compute at <a href="https://www.arm.com/">ARM Ltd.</a> My interests span Memory Systems, Hardware Security, and FPGA-based hardware acceleration. Physically based in Austin, Texas &mdash; the soul is still in Chennai, Tamil Nadu.</p>
 									</div>
 								</div>
 							</div>
@@ -336,7 +399,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 											<div class="tm-photo"><img src="images/travel_pics/PXL_20230520_195756604.jpg" alt="Travel" loading="lazy" draggable="false"></div>
 										</div>
 										<div class="tm-col">
-											<div class="tm-photo"><img src="images/travel_pics/PXL_20220102_113900654.JPG" alt="Travel" loading="lazy" draggable="false"></div>
+											<div class="tm-photo"><img src="images/travel_pics/PXL_20220102_113900654.jpg" alt="Travel" loading="lazy" draggable="false"></div>
 											<div class="tm-photo"><img src="images/travel_pics/PXL_20241225_070157139.jpg" alt="Travel" loading="lazy" draggable="false"></div>
 										</div>
 										<div class="tm-col tm-col-portrait">
@@ -345,7 +408,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 									</div>
 									<div class="travel-caption">
 										<span class="travel-caption-icon">&#9992;</span>
-										I like to travel &mdash; click for more pics
+										I like to travel - click for more pics
 									</div>
 								</div>
 							</a>
@@ -404,476 +467,10 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				</div>
 			</section>
 
-			<section class="colorlib-experience" style="height: 100vh;">
-				<div class="colorlib-narrow-content">
-					<div class="row"  data-section="Experience">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Experience</span>
-							<h2 class="colorlib-heading animate-box">Work Experience</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-				         <div class="timeline-centered">
-				         	<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-1">
-					                  <i class="icon-briefcase3"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                  <h2><a href="#"><a href="https://www.arm.com/">ARM Ltd.</a> - Performance Engineer</a> <span style="float: right;">June 2023 to Current</span></h2>
-					                  <ul>
-					                  	<li>
-					                  		Microarchitecture research, performance modeling & correlation in the L2 team of ARM Cortex-A CPUs.
-					                  	</li>
-								      </ul>
-					                </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-1">
-					                  <i class="icon-briefcase3"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                  <h2><a href="#"><a href="https://www.nvidia.com/en-us/">NVIDIA</a> - Deep Learning Architect Intern</a> <span style="float: right;">Summer 2022</span></h2>
-					                  <ul>
-					                  	<li>
-					                  		Research on data packaging & bandwidth improvement for AI workloads.
-					                  	</li>										
-								      </ul>
-					                </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-1">
-					                  <i class="icon-briefcase3"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                  <h2><a href="#"><a href="https://www.amd.com/en.html">Xilinx (AMD)</a> - Design Engineer Intern</a> <span style="float: right;">Summers 2019 & 2020</span></h2>
-					                <ul>
-					                  	<li>
-					                  		<2020> FPGA Accelerators for power throttling and bandwidth improvements in SmartSSDs.
-					                  	</li>
-										<li>
-											<2019> Hardware Accelerator IP for RAID6 Disk Storage System.
-										</li>
-									</ul>
-					                </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-3">
-					                  <i class="icon-briefcase3"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="#"><a href="https://shakti.org.in/">Shakti Processors</a> - Student Researcher </a> <span style="float: right;">Sep 2019 - Dec 2019</span></h2>							
-									<h5> With Prof. Kamakoti V </h5>
-					                  <ul>
-										<li> Microarchitecture research & design in the Front-End & Decode Stage. </li>
-										<li> India's first indigeneously designed & manufactured Processor. </li>
-					                  </ul>
-					               </div>
-					            </div>
-					         </article>
-
-						 <article class="timeline-entry begin animate-box" data-animate-effect="fadeInBottom">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-none">
-					               </div>
-					            </div>
-					         </article>
-					      </div>
-					   </div>
-				   </div>				   				   
-				</div>
-			</section>
-
-			<section class="colorlib-experience" style="height: 100vh;">
-				<div class="colorlib-narrow-content">
-					<div class="row"  data-section="Projects">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Projects</span>
-							<h2 class="colorlib-heading animate-box">Research Projects</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-				         <div class="timeline-centered">
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-1">
-					                  <i class="icon-code"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                <h2><a href="https://github.com/rishabh-chitoor/5G_CustomProcessor"> IITM 5G Testbed Project</a> <span style="float: right;">Fall 2020</span></h2>
-							  		<h5> Under Prof. Nitin Chandrachoodan </h5>
-							  		<h5> <a href="https://github.com/rishabh-chitoor/5G_CustomProcessor"> <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20"> Github Repo </a> </h5>
-					                  <ul>
-					                  	<li>
-					                  		Built a custom soft processor core optimized resource-wise and timing-wise to run the “Physical Layer Controller” of the 5G testbed.
-					                  	</li>
-										<li>
-											Designed custom AXI Stream interface and peripheral control: handled modulation, error control coding, scrambling of bits, FFTs, etc.
-										</li>																	
-					                  </ul>
-					               </div>
-					            </div>
-					         </article>
 
 
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-2">
-					                  <i class="icon-code"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="https://github.com/rishabh-chitoor/FESI_protocol">Novel 4-stage Cache Coherence Protocol</a> <span style="float: right;">Spring 2021</span></h2>
-									<h5> Towards B.Tech Thesis, under Prof. Madhu Mutyam </h5>
-									<h5> <a href="https://github.com/rishabh-chitoor/FESI_protocol"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20">Github Repo</a> | <a href="images/btp_thesis.pdf">Thesis</a> </h5>
-					                  <ul>
-					                  	<li>
-					                  		Ideated a novel 4-state Cache Coherence Protocol designed to reduce the number of accesses to Main Memory: validated through self-designed coherence simulator & GEM5.					                  		
-					                  	</li>
-										<li>
-											Theoretically proven to achieve lowest number of Main Memory accesses among all protocols.
-					                  	</li>
-					                  </ul>
-					               </div>
-					            </div>
-					         </article>	
-
-					         <article class="timeline-entry begin animate-box" data-animate-effect="fadeInBottom">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-none">
-					               </div>
-					            </div>
-					         </article>
-					      </div>
-					   </div>
-				   </div>
-				   <div class="row">
-						<div class="col-md-9 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<h2 class="colorlib-heading animate-box">Academic Projects</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-				         <div class="timeline-centered">
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-1">
-					                  <i class="icon-code"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                  <h2>Pipelined Signed 8-bit Multiplier<span style="float: right;"></span></h2>
-							  <h5> EE5311:Digital IC Design | Prof. Janakiraman Veeraraghavan </h5>
-								<ul>
-								<li>
-									Used Electric & LT Spice to design & validate the layout, transistor level circuit and icon for a signed 8-bit Multiplier.
-								</li>								
-								</ul>
-					               </div>
-					            </div>
-					         </article>
 
 
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-2">
-					                  <i class="icon-code"></i>
-					               </div>
-					               <div class="timeline-label">
-					                  <h2><a href="https://github.com/rishabh-c-s/Cross_Core_Covert_Channel">Cross-Core Covert Channel</a> <span style="float: right;"></span></h2>
-							<h5> CS6330:Secure Processor Microarchitecture | Prof. Madhu Mutyam | <a href="https://github.com/rishabh-c-s/Cross_Core_Covert_Channel"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20">Github Repo</a> </h5>
-					          <ul>
-								<li>
-									Uses Flush+Reload in L1 Cache to establish a Cross-Core Covert Channel, whereby sender can send a message of length upto 125 characters.
-								</li>
-								<li>
-									Achieves maximum bandwidth of 700 MB/s.
-								</li>							
-								</ul>
-					               </div>
-					            </div>
-					         </article>
-
-						<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-3">
-					                  <i class="icon-code"></i>
-					               </div>
-					               <div class="timeline-label">
-					                  <h2><a href="https://github.com/rishabh-c-s/RISCV-Processor">Expanded 5-stage Pipelined RISCV-32I Processor</a> <span style="float: right;"></span></h2>
-							<h5> EE2003:Computer Organization | Prof. Nitin Chandrachoodan | <a href="https://github.com/rishabh-c-s/RISCV-Processor"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20">Github Repo</a> </h5>
-					                	<ul>
-								<li>
-									A 5-stage pipelined RISCV-32I CPU, expanded with several features, such as Multiply operation and error handling.
-								</li>								
-								<li>
-									CPU runs at maximum frequency of 250MHz.
-								</li>
-								<li> 
-									Reports: <a href="images/Base_RV32I_Report.pdf" target="_blank"> Base RV32I </a> | <a href="images/Expanded_RV32I_Report.pdf" target="_blank"> Expanded RV32I (with peripherals) </a>
-								</li>								
-								</ul>
-					               </div>
-					            </div>
-					         </article>
-
-						<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-4">
-					                  <i class="icon-code"></i>
-					               </div>
-					               <div class="timeline-label">
-					                  <h2><a href="https://github.com/rishabh-c-s/gaming_arcade_LALABOTS">LALABOTS - An Arcade of Video Games</a> <span style="float: right;"></span></h2>
-							<h5> High School Exhibition Project | <a href="https://github.com/rishabh-c-s/gaming_arcade_LALABOTS"><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="20" height="20">Github Repo</a> </h5>
-					                	<ul>
-								<li>
-									An integrated gaming platform with multiple original games | Entirely using C++.
-								</li>								
-								<li> 
-									<a href="images/LALABOTS_ProjectReport.pdf" target="_blank"> Project Report </a>
-								</li>
-								</ul>
-					               </div>
-					            </div>
-					         </article>					         
-
-					         <article class="timeline-entry begin animate-box" data-animate-effect="fadeInBottom">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-none">
-					               </div>
-					            </div>
-					         </article>
-					      </div>
-					   </div>
-				   </div>
-				</div>
-			</section>			
-
-
-			<section class="colorlib-experience" style="height: 100vh;">
-				<div class="colorlib-narrow-content">
-					<div class="row"  data-section="Teaching">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Teaching</span>
-							<h2 class="colorlib-heading animate-box">Teaching</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-				         <div class="timeline-centered">
-				         	<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-1">
-					                  <i class="icon-book"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                  <h2><a href="#">Workshop on Hardware Security</a> <span style="float: right;">Feb 27th 2021</span></h2>
-							<h5> Shaastra 2021 | Annual Technical Festival, IIT Madras </h5>
-					                  <ul>
-					                  	<li>
-					                  		Online professional workshop titled "Hacking Processors: An Unconventional Hacking Methodology"
-									   	</li>									   				
-										<li>
-											Covered the following in the workshop:
-											<ul>
-												<li>
-													Basics of CPU & Memory architecture
-												</li>
-												<li>
-													Cache Timing Attacks
-												</li>
-												<li>
-													Live Implementation of a Cross-Core Covert Channel (step-by-step guidance)
-												</li>
-												<li>
-													Other Recent Side-Channel & Covert-Channel Attacks
-												</li>
-											</ul>
-										</li>
-										<li>
-											<a href="https://drive.google.com/drive/folders/1uoQp515FfpQ5NtKNisnh_R4LGzead8OU?usp=sharing"> Workshop Slides </a>
-										</li>							
-					                  </ul>
-					               </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-
-					               <div class="timeline-icon color-2">
-					                  <i class="icon-book"></i>
-					               </div>
-
-					               <div class="timeline-label">
-					                  <h2><a href="#">Teaching & Research Assistantships</a> <span style="float: right;">Multiple</span></h2>							
-					                <ul>
-					                	<li> Graduate Research Assistant @ UT Austin
-					                		<ul> 
-					                			<li> With Prof. Mohit Tiwari on exploring/exploiting HW security vulnerabilities in Kubernetes containers. </li>
-					                			<li> Special focus on containers used in Cloud applications. </li>
-					                		</ul>
-					                	</li>
-					                	<li>
-					                		Graduate TAs @ UT Austin
-					                		<ul>
-					                			<li> ECE364K: Senior Design Project | Prof. Leonard Register </li>
-					                			<li> ECE371Q: Digital Image Processing | Prof. Alan Bovik </li>					                
-					                			<li> EE306: Intro to Computing course | Prof. Nina Telang </li>
-					                  		</ul>
-					                  	<li>
-					                  		Undergraduate TAs @ IIT Madras
-					                  		<ul>
-					                  			<li> EE2003: Computer Organization | Prof. Nitin Chandrachoodan </li>
-					                  		</ul>					                  		
-					                  	</li>																		
-					                  </ul>
-					               </div>
-					            </div>
-					         </article>
-
-					         <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-3">
-					                  <i class="icon-book"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="http://www.carizen.com/carizen/index.php">Corporate Training on SW Basics </a> <span style="float: right;">Summer 2018</span></h2>
-							<h5> <i class="icon-world"> </i> <a href="http://www.carizen.com/carizen/index.php" target="_blank"> Carizen Software Pvt. Ltd. </a> </h5>
-					                  <ul>
-					                  	<li>
-					                  		Teaching Assistant to an Employee Training course on the Linux OS (CentOS 7), Linux terminal commands, Bash script, and Computer Networking.
-					                  	</li>
-										<li>
-											Made the trainees industry-ready by exposing them to real-life scenarios during training.
-										</li>
-					                  </ul>
-					               </div>
-					            </div>
-					         </article>
-
-						<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-4">
-					                  <i class="icon-book"></i>
-					               </div>
-					               <div class="timeline-label">
-					               	<h2><a href="https://avantifellows.org/">Mentor for Underprivileged High School Students</a> <span style="float: right;">Aug 2017 - Apr 2018</span></h2>
-									<h5> <a href="https://avantifellows.org/">Avanti Fellows, Pondicherry</a></h5>
-					                  <ul>
-					                  	<li>
-					                  		Academic mentor to 40 high school under-privileged students in JNV Puducherry School, for the IIT-JEE examination.
-					                  	</li>
-										<li>
-					                  		30 students cleared JEE Mains 2018 | 7 students secured admissions in top 5 IITs
-					                  	</li>							
-					                  </ul>
-					               </div>
-					            </div>
-					         </article>
-						 
-						 <article class="timeline-entry begin animate-box" data-animate-effect="fadeInBottom">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-none">
-					               </div>
-					            </div>
-					         </article>
-				         
-					      </div>
-					   </div>
-				   </div>				   				   
-				</div>
-			</section>
-
-			<section class="colorlib-experience" style="height: 100vh;">
-				<div class="colorlib-narrow-content">
-					<div class="row"  data-section="Personal">
-						<div class="col-md-6 col-md-offset-3 col-md-pull-3 animate-box" data-animate-effect="fadeInLeft">
-							<span class="heading-meta">Personal</span>
-							<h2 class="colorlib-heading animate-box">Personal</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-12">
-				         <div class="timeline-centered">
-						<article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-1">            
-					               </div>
-					               <div class="timeline-label">
-					               	<h2>Football<span style="float: right;"></span></h2>
-								<ul>
-									<li> Die-hard Manchester United fan (been dying hard). </li>
-									<li> Play in the Left Back/CDM position. </li>
-									<li> Represented both school and college football teams. </li>
-									<li> Won the Inter-Hostel Soccer Championship in 2020, "Go Saras!" </li>
-									<li> Reach out if you're in a league!
-								</ul>
-							</div>
-					            </div>
-					         </article>	
-				         
-
-						 <article class="timeline-entry animate-box" data-animate-effect="fadeInRight">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-3">
-					               </div>
-					               <div class="timeline-label">
-					               	<h2>Debate & Public Speaking<span style="float: right;"></span></h2>
-										<ul>
-											<li> Represented IIT Madras in multiple Debate & public speaking competitions. </li>
-											<li> Won NIT Trichy's "Festember" Debate competition. </li>
-											<li> Led Oratory Club of IIT Madras and was contingent captain from 2019-2020. </li>
-										</ul>
-					               </div>
-					            </div>
-					         </article>
-
-
-						<article class="timeline-entry animate-box" data-animate-effect="fadeInLeft">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-2">
-					               </div>
-					               <div class="timeline-label">
-					                  <h2>Standup Comedy<span style="float: right;"></span></h2>
-					                  	Dabbled in Standup Comedy during the COVID-19 enforced lockdown, and was one of my coping mechanisms against boredom. <br>
-					                  	Don't ask me to crack jokes the next time we meet!
-					               </div>
-					            </div>
-					         </article>		
-						 
-						 <article class="timeline-entry begin animate-box" data-animate-effect="fadeInBottom">
-					            <div class="timeline-entry-inner">
-					               <div class="timeline-icon color-none">
-					               </div>
-					            </div>
-					         </article>
-					      </div>
-					   </div>
-				   </div>				   				   
-				</div>
-			</section>
 
 						<section class="colorlib-contact" data-section="Contact" style="height: 100vh;">
 				<div class="colorlib-narrow-content">
@@ -908,16 +505,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 									<i class="icon-phone"></i>
 								</div>
 								<div class="colorlib-text">
-									+91 9840704942							
-								</div>
-							</div>
-
-							<div class="colorlib-feature colorlib-feature-sm animate-box" data-animate-effect="fadeInLeft">
-								<div class="colorlib-icon">
-									<i class="icon-phone"></i>
-								</div>
-								<div class="colorlib-text">
-									+1 5126966899							
+									+1 5126966899
 								</div>
 							</div>
 
@@ -1003,5 +591,35 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	});
 	</script>
 
+		<script>
+	/* Preload travel images in background after page loads */
+	window.addEventListener('load', function() {
+	  var imgs = [
+	    'images/travel_pics/GX010005_2402400_1750356223.jpg',
+	    'images/travel_pics/PXL_20220102_113900654.jpg',
+	    'images/travel_pics/PXL_20220519_152825103.jpg',
+	    'images/travel_pics/PXL_20220519_175921355.jpg',
+	    'images/travel_pics/PXL_20230520_195756604.jpg',
+	    'images/travel_pics/PXL_20230613_145451307.jpg',
+	    'images/travel_pics/PXL_20231223_071612049.NIGHT.jpg',
+	    'images/travel_pics/PXL_20240402_193329835-EFFECTS.jpg',
+	    'images/travel_pics/PXL_20240523_232510538~2.jpg',
+	    'images/travel_pics/PXL_20240524_225134440.jpg',
+	    'images/travel_pics/PXL_20240527_210000310~2.jpg',
+	    'images/travel_pics/PXL_20240616_215824414.MP~2.jpg',
+	    'images/travel_pics/PXL_20240617_000006964.MP.jpg',
+	    'images/travel_pics/PXL_20241215_232557511.MP~2.jpg',
+	    'images/travel_pics/PXL_20241223_100746279.PORTRAIT.jpg',
+	    'images/travel_pics/PXL_20241225_070157139.jpg',
+	    'images/travel_pics/PXL_20250618_203306718~2.jpg',
+	    'images/travel_pics/PXL_20250702_193931491~2.jpg',
+	    'images/travel_pics/PXL_20250706_093848343~2.jpg',
+	    'images/travel_pics/PXL_20250706_113944395~2.jpg'
+	  ];
+	  setTimeout(function() {
+	    imgs.forEach(function(src) { var i = new Image(); i.src = src; });
+	  }, 1500);
+	});
+	</script>
 	</body>
 </html>

@@ -219,9 +219,43 @@
       h1 { font-size: 26px; }
       body { font-size: 17px; }
     }
+
+    /* ── Dark mode overrides ── */
+    [data-theme="dark"] {
+      --ink: #d4d0c8;
+      --ink-light: #999;
+      --bg: #181818;
+      --rule: #333;
+      --quote-bg: #222;
+    }
+    [data-theme="dark"] body { background: #181818; }
+    [data-theme="dark"] .nav-back { background: rgba(24,24,24,0.96) !important; border-color: #333 !important; }
+    [data-theme="dark"] blockquote { border-color: var(--accent) !important; }
+
+    /* ── Toggle button ── */
+    #theme-toggle {
+      position: fixed; top: 16px; right: 20px; z-index: 9999;
+      background: none; border: 1.5px solid #aaa; border-radius: 20px;
+      padding: 5px 14px; font-family: 'Source Sans 3', sans-serif;
+      font-size: 13px; font-weight: 600; cursor: pointer; color: #777;
+      transition: border-color 0.2s, color 0.2s, background 0.2s; letter-spacing: 0.03em;
+    }
+    #theme-toggle:hover { border-color: #c0392b; color: #c0392b; }
+    [data-theme="dark"] #theme-toggle { color: #aaa; border-color: #555; background: rgba(0,0,0,0.3); }
+    [data-theme="dark"] #theme-toggle:hover { border-color: #c0392b; color: #c0392b; }
   </style>
+  <script>
+  /* Theme persistence — note: blog uses its own CSS vars, we map them */
+  (function(){
+    var saved = localStorage.getItem('rc-theme');
+    var prefer = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', saved || prefer);
+  })();
+  </script>
 </head>
 <body>
+<button id="theme-toggle" onclick="(function(){var t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',t);localStorage.setItem('rc-theme',t);document.getElementById('theme-toggle').textContent=t==='dark'?'\u2600 Light':'\u263e Dark';})();">&#9790; Dark</button>
+<script>document.addEventListener('DOMContentLoaded',function(){var t=document.documentElement.getAttribute('data-theme');document.getElementById('theme-toggle').textContent=t==='dark'?'\u2600 Light':'\u263e Dark';});</script>
 
 <nav class="nav-back">
   <a href="../index.html">← Back</a>
