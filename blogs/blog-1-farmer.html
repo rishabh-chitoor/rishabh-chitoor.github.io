@@ -243,6 +243,73 @@
     #theme-toggle:hover { border-color: #c0392b; color: #c0392b; }
     [data-theme="dark"] #theme-toggle { color: #aaa; border-color: #555; background: rgba(0,0,0,0.3); }
     [data-theme="dark"] #theme-toggle:hover { border-color: #c0392b; color: #c0392b; }
+
+    /* ── Subscribe box ── */
+    .subscribe-box {
+      margin: 3rem 0 2rem;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 2.4rem 0;
+      text-align: center;
+    }
+    .subscribe-inner { max-width: 420px; margin: 0 auto; }
+    .subscribe-icon {
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .subscribe-heading {
+      font-family: 'Lora', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 0 0 0.5rem;
+    }
+    .subscribe-subtext {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px;
+      color: var(--ink-light);
+      line-height: 1.6;
+      margin: 0 0 1.4rem;
+    }
+    .subscribe-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+    .subscribe-email-input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .subscribe-email-input:focus { border-color: var(--accent); }
+    .subscribe-btn {
+      padding: 10px 22px;
+      background: transparent;
+      color: var(--accent);
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1.5px solid var(--accent);
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .subscribe-btn:hover { background: var(--accent); color: #fff; }
+    [data-theme="dark"] .subscribe-email-input { background: #222; border-color: #444; color: #d4d0c8; }
+    [data-theme="dark"] .subscribe-email-input:focus { border-color: var(--accent); }
   </style>
   <script>
   /* Theme persistence — note: blog uses its own CSS vars, we map them */
@@ -400,7 +467,7 @@
   <p>The best thing we can do for the farmer today is build them a way out, and cheer when they take it.</p>
 
   <div class="cta-box">
-    <p><em>Agree? Disagree? Drop a comment. Because India doesn't need more reverence for its problems. It needs people willing to debate them. And throw a few pebbles along the way.</em></p>
+    <p><em>Agree? Disagree? Drop a comment. I'd love to discuss and debate. And throw a few pebbles together along the way.</em></p>
     <form id="blog-contact-form" novalidate style="margin-top:0;">
       <div style="display:flex;flex-direction:column;gap:10px;max-width:420px;margin:0 auto;">
         <input type="email" id="blog-email" placeholder="your@email.com" required
@@ -413,8 +480,25 @@
         </button>
       </div>
       <p id="blog-success" style="display:none;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;color:#2d7a4f;font-weight:600;">✓ Message sent! I'll be in touch.</p>
-      <p id="blog-error" style="display:none;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--accent);">Something went wrong — please try again.</p>
+      <p id="blog-error" style="display:none;margin-top:14px;font-family:'Source Sans 3',sans-serif;font-size:14px;color:var(--accent);">Something went wrong, please try again.</p>
     </form>
+  </div>
+
+
+  <div class="subscribe-box">
+    <div class="subscribe-inner">
+      <div class="subscribe-icon">&#9670;</div>
+      <h4 class="subscribe-heading">Stay in the loop</h4>
+      <p class="subscribe-subtext">I write occasionally about policy, ideas and technology.<br>No spam, just pebbles.</p>
+      <form id="blog-subscribe-form" novalidate>
+        <div class="subscribe-row">
+          <input type="email" id="blog-sub-email" placeholder="your@email.com" required class="subscribe-email-input">
+          <button type="submit" class="subscribe-btn">Subscribe &rarr;</button>
+        </div>
+        <p id="blog-sub-success" style="display:none;margin-top:12px;font-family:'Source Sans 3',sans-serif;font-size:13px;color:#2d7a4f;font-weight:600;text-align:center;">&#10003; You're in. I'll be in touch.</p>
+        <p id="blog-sub-error" style="display:none;margin-top:12px;font-family:'Source Sans 3',sans-serif;font-size:13px;color:var(--accent);text-align:center;">Something went wrong, please try again.</p>
+      </form>
+    </div>
   </div>
 
   <div class="author-sig">
@@ -485,6 +569,44 @@
       error.style.display = 'block';
       btn.disabled = false;
       btn.textContent = 'Write to me →';
+    }
+  });
+
+  document.getElementById('blog-subscribe-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var email   = document.getElementById('blog-sub-email').value.trim();
+    var success = document.getElementById('blog-sub-success');
+    var error   = document.getElementById('blog-sub-error');
+    var btn     = this.querySelector('button[type="submit"]');
+
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    success.style.display = 'none';
+    error.style.display   = 'none';
+
+    try {
+      var res = await fetch('https://formspree.io/f/mojyzdng', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email:    email,
+          message:  '(blog subscribe — Farming Is Not Sacred)',
+          _subject: 'New Blog Subscriber: ' + email
+        })
+      });
+      if (res.ok) {
+        success.style.display = 'block';
+        document.getElementById('blog-sub-email').value = '';
+        btn.textContent = 'Subscribed ✓';
+      } else {
+        throw new Error('bad response');
+      }
+    } catch(err) {
+      error.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Subscribe →';
     }
   });
 </script>

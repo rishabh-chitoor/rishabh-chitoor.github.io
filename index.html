@@ -213,60 +213,65 @@
 
 		/* ── Blog Subscribe ── */
 		.blog-subscribe {
-			background: linear-gradient(135deg, #2c98f0 0%, #1a7ad4 100%);
-			border-radius: 8px;
-			padding: 32px 36px;
-			color: #fff;
+			border-top: 1px solid #e0dbd4;
+			border-bottom: 1px solid #e0dbd4;
+			padding: 2.4rem 0;
+			text-align: center;
 		}
+		[data-theme="dark"] .blog-subscribe { border-color: #333; }
 		.subscribe-title {
 			font-family: "Quicksand", sans-serif;
-			font-size: 20px;
+			font-size: 1.15rem;
 			font-weight: 700;
-			margin-bottom: 8px;
-			color: #fff;
+			margin-bottom: 0.5rem;
+			color: var(--dm-text);
+		}
+		.subscribe-diamond {
+			font-size: 11px;
+			letter-spacing: 0.4em;
+			color: #2c98f0;
+			margin-bottom: 1rem;
+			display: block;
 		}
 		.subscribe-desc {
-			font-size: 15px;
-			color: rgba(255,255,255,0.8);
-			margin-bottom: 20px;
+			font-size: 14px;
+			color: var(--dm-blog-excerpt);
+			margin-bottom: 1.4rem;
 			line-height: 1.6;
 		}
 		/* ── Subscribe Form ── */
-		.subscribe-field-row { display: flex; }
+		.subscribe-field-row { display: flex; gap: 8px; justify-content: center; max-width: 420px; margin: 0 auto; }
 		.subscribe-input {
-			width: 100%;
+			flex: 1;
 			padding: 10px 14px;
-			border: none;
-			border-radius: 4px;
+			border: 1px solid #e0dbd4;
+			border-radius: 2px;
 			font-family: "Quicksand", sans-serif;
 			font-size: 14px;
-			color: #1a1a1a;
-			background: rgba(255,255,255,0.92);
+			color: var(--dm-text);
+			background: var(--dm-bg);
 			outline: none;
-			transition: background 0.2s;
+			transition: border-color 0.2s;
 		}
-		.subscribe-input:focus { background: #fff; }
-		.subscribe-textarea { resize: vertical; min-height: 54px; }
+		.subscribe-input:focus { border-color: #2c98f0; }
+		[data-theme="dark"] .subscribe-input { border-color: #444; }
 		.btn-subscribe {
 			display: inline-block;
-			background: #fff;
+			background: transparent;
 			color: #2c98f0;
 			font-family: "Quicksand", sans-serif;
-			font-size: 14px;
+			font-size: 12px;
 			font-weight: 700;
-			letter-spacing: 0.04em;
-			padding: 12px 28px;
-			border-radius: 4px;
-			border: none;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			padding: 10px 22px;
+			border-radius: 2px;
+			border: 1.5px solid #2c98f0;
 			cursor: pointer;
-			text-decoration: none;
-			transition: transform 0.2s, box-shadow 0.2s;
+			white-space: nowrap;
+			transition: background 0.2s, color 0.2s;
 		}
-		.btn-subscribe:hover {
-			transform: translateY(-2px);
-			box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-			color: #1a7ad4;
-		}
+		.btn-subscribe:hover { background: #2c98f0; color: #fff; }
 
 		/* ── Dark / Light mode ── */
 		:root {
@@ -446,20 +451,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 					<div class="row" style="margin-top: 40px;">
 						<div class="col-md-12">
 							<div class="blog-subscribe animate-box" data-animate-effect="fadeInLeft">
+								<span class="subscribe-diamond">&#9670;</span>
 								<h4 class="subscribe-title">Stay in the loop</h4>
 								<p class="subscribe-desc">I write occasionally about policy, ideas and technology. No spam, just pebbles.</p>
 								<form id="subscribe-form" novalidate>
 									<div class="subscribe-field-row">
 										<input type="email" id="sub-email" class="subscribe-input" placeholder="your@email.com" required>
-									</div>
-									<div class="subscribe-field-row" style="margin-top:10px;">
-										<textarea id="sub-message" class="subscribe-input subscribe-textarea" placeholder="Any notes? (optional)" rows="2"></textarea>
-									</div>
-									<div class="subscribe-field-row" style="margin-top:12px;">
 										<button type="submit" class="btn-subscribe">Subscribe &rarr;</button>
 									</div>
-									<p id="subscribe-success" style="display:none;margin-top:12px;color:#fff;font-size:14px;font-weight:600;">&#10003; You're in! I'll be in touch.</p>
-									<p id="subscribe-error" style="display:none;margin-top:12px;color:#ffe0e0;font-size:14px;">Something went wrong — please try again or email me directly.</p>
+									<p id="subscribe-success" style="display:none;margin-top:12px;font-size:14px;font-weight:600;color:#2c98f0;">&#10003; You're in! I'll be in touch.</p>
+									<p id="subscribe-error" style="display:none;margin-top:12px;font-size:14px;color:#c0392b;">Something went wrong — please try again or email me directly.</p>
 								</form>
 							</div>
 						</div>
@@ -569,7 +570,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	document.getElementById('subscribe-form').addEventListener('submit', async function(e) {
 		e.preventDefault();
 		var email   = document.getElementById('sub-email').value.trim();
-		var message = document.getElementById('sub-message').value.trim();
 		var success = document.getElementById('subscribe-success');
 		var error   = document.getElementById('subscribe-error');
 		var btn     = this.querySelector('button[type="submit"]');
@@ -587,14 +587,13 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					email:   email,
-					message: message || '(no notes)',
+					message: '(subscribed from main page)',
 					_subject: 'New Blog Subscriber: ' + email
 				})
 			});
 			if (res.ok) {
 				success.style.display = 'block';
-				document.getElementById('sub-email').value   = '';
-				document.getElementById('sub-message').value = '';
+				document.getElementById('sub-email').value = '';
 				btn.textContent = 'Subscribed ✓';
 			} else {
 				throw new Error('bad response');
