@@ -289,5 +289,22 @@
 	<script src="js/owl.carousel.min.js"></script>
 	<script src="js/jquery.countTo.js"></script>
 	<script src="js/main.js"></script>
+	<script>
+	/* Fix: main.js intercepts ALL sidebar nav clicks as scroll anchors.
+	   On subpages, every link is external so we override all of them. */
+	(function() {
+	  document.addEventListener('DOMContentLoaded', function() {
+	    document.querySelectorAll('#colorlib-main-menu a, #colorlib-logo a').forEach(function(a) {
+	      var href = a.getAttribute('href');
+	      if (href && href !== '#') {
+	        a.addEventListener('click', function(e) {
+	          e.stopImmediatePropagation();
+	          window.location.href = href;
+	        }, true);
+	      }
+	    });
+	  });
+	})();
+	</script>
 	</body>
 </html>
