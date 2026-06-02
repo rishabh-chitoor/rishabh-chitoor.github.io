@@ -310,6 +310,18 @@
     .subscribe-btn:hover { background: var(--accent); color: #fff; }
     [data-theme="dark"] .subscribe-email-input { background: #222; border-color: #444; color: #d4d0c8; }
     [data-theme="dark"] .subscribe-email-input:focus { border-color: var(--accent); }
+
+    /* ── Visitor count badge ── */
+    .visitor-count {
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-top: 0.8rem;
+      display: inline-block;
+    }
   </style>
   <script>
   /* Theme persistence — note: blog uses its own CSS vars, we map them */
@@ -339,6 +351,7 @@
     <div class="post-meta">April 26th, 2026 &nbsp;·&nbsp; Blog #1 &nbsp;·&nbsp; ~10 min read</div>
     <h1>Farming Is Not Sacred.<br>It Is Our Colonial Inheritance.</h1>
     <div class="post-byline">By <strong>Rishabh Chitoor</strong></div>
+    <span class="visitor-count" id="visitor-badge">Loading visitors...</span>
   </header>
 
   <blockquote class="epigraph">
@@ -609,6 +622,20 @@
       btn.textContent = 'Subscribe →';
     }
   });
+
+  /* ── Visitor count (session-based deduplication via CountAPI) ── */
+  (function(){
+    if (sessionStorage.getItem('rc-visitor-counted')) return;
+    sessionStorage.setItem('rc-visitor-counted', '1');
+
+    var key = 'blog-1-farmer';
+    var badge = document.getElementById('visitor-badge');
+
+    fetch('https://count.countapi.xyz/' + key + '/sightings?auto=1')
+      .then(function(r){ return r.json(); })
+      .then(function(d){ badge.textContent = d.value.toLocaleString() + ' visitors'; })
+      .catch(function(){ badge.textContent = '' });
+  })();
 </script>
 </body>
 </html>
