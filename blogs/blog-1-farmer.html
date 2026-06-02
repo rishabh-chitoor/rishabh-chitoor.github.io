@@ -640,7 +640,7 @@
 
     // Always display the current visitor count
     ref.once('value', function(snap){
-      badgeEl.textContent = (snap.val() || 0).toLocaleString() + ' visitors';
+      badgeEl.textContent = (snap.val() || 0).toLocaleString() + ' Reads';
     });
 
     // Only increment on first visit of this tab session
