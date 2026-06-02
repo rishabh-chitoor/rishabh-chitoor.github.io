@@ -631,27 +631,13 @@
     }
   });
 
-  /* ── Visitor count (session-based deduplication via CountAPI) ── */
-  (function(){
+  /* ── Visitor count (session-based deduplication) ── */
+  window.addEventListener('DOMContentLoaded', function(){
     if (sessionStorage.getItem('rc-visitor-counted')) return;
     sessionStorage.setItem('rc-visitor-counted', '1');
 
-    var key = 'blog-1-farmer';
-    var badge = document.getElementById('visitor-badge');
-
-  window.addEventListener('DOMContentLoaded', function(){
     var badgeEl = document.getElementById('visitor-badge');
     if (!badgeEl || !window.__rc_db) { badgeEl && (badgeEl.textContent = ''); return; }
-
-    // Skip increment if already counted in this tab session
-    if (sessionStorage.getItem('rc-visitor-counted')) {
-      var ref = window.__rc_db.ref('blog-1-farmer/visits');
-      ref.once('value', function(snap){
-        badgeEl.textContent = (snap.val() || 0).toLocaleString() + ' visitors';
-      }, function(){ badgeEl.textContent = ''; });
-      return;
-    }
-    sessionStorage.setItem('rc-visitor-counted', '1');
 
     var ref = window.__rc_db.ref('blog-1-farmer/visits');
     // Read then atomically increment
