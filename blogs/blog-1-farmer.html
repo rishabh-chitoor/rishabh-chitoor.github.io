@@ -633,25 +633,21 @@
 
   /* ── Visitor count (session-based deduplication) ── */
   window.addEventListener('DOMContentLoaded', function(){
+    var badgeEl = document.getElementById('visitor-badge');
+    if (!badgeEl || !window.__rc_db) { return; }
+
+    var ref = window.__rc_db.ref('blog-1-farmer/visits');
+
+    // Always display the current visitor count
+    ref.once('value', function(snap){
+      badgeEl.textContent = (snap.val() || 0).toLocaleString() + ' visitors';
+    });
+
+    // Only increment on first visit of this tab session
     if (sessionStorage.getItem('rc-visitor-counted')) return;
     sessionStorage.setItem('rc-visitor-counted', '1');
 
-    var badgeEl = document.getElementById('visitor-badge');
-    if (!badgeEl || !window.__rc_db) { badgeEl && (badgeEl.textContent = ''); return; }
-
-    var ref = window.__rc_db.ref('blog-1-farmer/visits');
-    // Read then atomically increment
-    ref.once('value', function(snap){
-      var current = snap.val() || 0;
-      badgeEl.textContent = current.toLocaleString() + ' visitors';
-      ref.transaction(function(n){ return n + 1; }, function(err, committed, snapshot){
-        if (!err && committed) {
-          badgeEl.textContent = (snapshot.val()).toLocaleString() + ' visitors';
-        } else if (!badgeEl.textContent || badgeEl.textContent === '') {
-          badgeEl.textContent = '';
-        }
-      });
-    }, function(){ badgeEl.textContent = ''; });
+    ref.transaction(function(n){ return (n || 0) + 1; });
   });
 </script>
 </body>
