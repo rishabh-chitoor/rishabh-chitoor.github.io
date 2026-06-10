@@ -310,10 +310,6 @@
     .subscribe-btn:hover { background: var(--accent); color: #fff; }
     [data-theme="dark"] .subscribe-email-input { background: #222; border-color: #444; color: #d4d0c8; }
     [data-theme="dark"] .subscribe-email-input:focus { border-color: var(--accent); }
-
-    /* ── Visitor count badge ── */
-    .post-meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .visitor-count { color: var(--accent); font-family: 'Source Sans 3', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
   </style>
   <script>
   /* Theme persistence — note: blog uses its own CSS vars, we map them */
@@ -322,23 +318,6 @@
     var prefer = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', saved || prefer);
   })();
-  </script>
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-  <script>
-    (function(){
-      var firebaseConfig = {
-        apiKey: "AIzaSyDFolOG-DbE1HAdUBNZDUhFemUz0vHIT5s",
-        authDomain: "rishabhwebsite-23cb9.firebaseapp.com",
-        projectId: "rishabhwebsite-23cb9",
-        storageBucket: "rishabhwebsite-23cb9.firebasestorage.app",
-        messagingSenderId: "755895375498",
-        appId: "1:755895375498:web:ce11d81da7caac6211bf73"
-      };
-      firebase.initializeApp(firebaseConfig);
-      window.__rc_db = firebase.database();
-    })();
   </script>
 </head>
 <body>
@@ -357,7 +336,7 @@
 
 <article>
   <header class="post-header">
-    <div class="post-meta">April 26th, 2026 &nbsp;·&nbsp; Blog #1 &nbsp;·&nbsp; ~10 min read&nbsp;&nbsp;<span class="visitor-count" id="visitor-badge"></span></div>
+    <div class="post-meta">April 26th, 2026 &nbsp;·&nbsp; Blog #1 &nbsp;·&nbsp; ~10 min read</div>
     <h1>Farming Is Not Sacred.<br>It Is Our Colonial Inheritance.</h1>
     <div class="post-byline">By <strong>Rishabh Chitoor</strong></div>
   </header>
@@ -629,25 +608,6 @@
       btn.disabled = false;
       btn.textContent = 'Subscribe →';
     }
-  });
-
-  /* ── Visitor count (session-based deduplication) ── */
-  window.addEventListener('DOMContentLoaded', function(){
-    var badgeEl = document.getElementById('visitor-badge');
-    if (!badgeEl || !window.__rc_db) { return; }
-
-    var ref = window.__rc_db.ref('blog-1-farmer/visits');
-
-    // Always display the current visitor count
-    ref.once('value', function(snap){
-      badgeEl.textContent = (snap.val() || 0).toLocaleString() + ' Reads';
-    });
-
-    // Only increment on first visit of this tab session
-    if (sessionStorage.getItem('rc-visitor-counted')) return;
-    sessionStorage.setItem('rc-visitor-counted', '1');
-
-    ref.transaction(function(n){ return (n || 0) + 1; });
   });
 </script>
 </body>
